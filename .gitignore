@@ -1,0 +1,5 @@
+.env
+.env.local
+wiki-flask-venv
+venv
+/venv

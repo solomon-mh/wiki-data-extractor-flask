@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ person.first_name }} {{ person.last_name }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>{{ person.first_name }} {{ person.last_name }}</h1>
+      <p><strong>Birth City:</strong> {{ person.birth_city or 'Unknown' }}</p>
+      <p><strong>Early Life:</strong> {{ person.early_life }}</p>
+      <a href="{{ url_for('all_people') }}">Back to All People</a>
+    </div>
+  </body>
+</html>
