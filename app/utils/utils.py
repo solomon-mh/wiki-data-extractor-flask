@@ -81,7 +81,7 @@ def extract_early_life(name):
         start = content.find('Early life')
         if start != -1:
                     # List of section headings that could indicate the end of "Early life"
-            section_headings = ['Career','Club career','Youth career', 'Amateur career', 'Personal life','Politics', 'Later life', 'Professional Career','Business career','Mid-life','Mid life','Nursing career','Apprenticeships']  # Add more if needed
+            section_headings = ['Career','workshop','Club career','Marriage','Youth career', 'Amateur career', 'Personal life','Politics', 'Later life', 'Professional Career','Business career','Mid-life','Mid life','Nursing career','Apprenticeships']  # Add more if needed
 
             # Find the first occurrence of any of these section headings after 'Early life'
             end = -1

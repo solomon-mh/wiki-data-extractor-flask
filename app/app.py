@@ -21,19 +21,33 @@ def submit_names():
     names = request.form['names'].split(',')
     for name in names:
         name = name.strip()
-        if Person.query.filter_by(first_name=name.split()[0], last_name=name.split()[1]).first():
-            # Skip if person already exists
-            continue
+        name_parts = name.split()  # Split the name into parts
         
+        # Handle single names and multiple names
+        if len(name_parts) == 1:  # Single name like "Michelangelo"
+            first_name = name_parts[0]
+            last_name = ''  # Use an empty string for last_name
+        elif len(name_parts) > 1:  # Full name like "Leonardo da Vinci"
+            first_name = name_parts[0]
+            last_name = ' '.join(name_parts[1:])  # Join all remaining parts as last_name
+        else:
+            continue  # Skip invalid or empty names
+
+        # Check if the person already exists in the database
+        if Person.query.filter_by(first_name=first_name, last_name=last_name).first():
+            continue
+
+        # Fetch data from Wikipedia
         data = fetch_wikipedia_data(name)
         if data:
             person = Person(
-                first_name=data['first_name'],
-                last_name=data['last_name'],
-                birth_city=data['birth_city'],
-                early_life=data['early_life']
+                first_name=data.get('first_name', first_name),  # Use input name if data is missing
+                last_name=data.get('last_name', last_name),      # Default to empty string if missing
+                birth_city=data.get('birth_city', ''),
+                early_life=data.get('early_life', '')
             )
             db.session.add(person)
+
     db.session.commit()
     return redirect(url_for('all_people'))
 
@@ -67,7 +81,10 @@ def fetch_wikipedia_data(name):
         # Extract early life using wikipedia-api
         early_life = extract_early_life(name)
 
-        first_name, last_name = name.split(' ', 1)
+        # Handle single-word and multi-word names
+        name_parts = name.split(' ', 1)
+        first_name = name_parts[0]
+        last_name = name_parts[1] if len(name_parts) > 1 else ''  # Default last_name to empty if single name
 
         return {
             'first_name': first_name,
