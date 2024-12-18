@@ -39,11 +39,16 @@ def submit_names():
 
 @app.route('/person/<int:id>')
 def person_details(id):
-    person = Person.query.get(id)
-    if person is None:
-        # If person not found, return a 404 error page
-        return render_template('404.html'), 404
+    # Fetch the person from the database
+    person = Person.query.get_or_404(id)
+    
+    # Clean up 'early_life' to avoid redundancy
+    if person.early_life and "early life" in person.early_life.lower():
+        person.early_life = person.early_life.replace("Early Life", "").strip().lstrip(":")
+
+    # Render the details page with the cleaned-up data
     return render_template('details.html', person=person)
+
 
 @app.route('/all_people')
 def all_people():

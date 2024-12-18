@@ -33,6 +33,10 @@ def extract_birth_city_info(name):
                         birthplace_div = birth_td.find('div', class_='birthplace')
                         if birthplace_div:
                             birth_info = birthplace_div.text.strip()
+                        # Case 2: Check if the td itself has a class like "birth_place"
+                        elif 'birthplace' in birth_td.get('class', []):
+                            print(birth_td)
+                            birth_info = birth_td.text.strip()
                         else:
                             # Extract all text from the <td>, removing unwanted parts
                             birth_info = birth_td.get_text(separator=" ", strip=True)
@@ -77,7 +81,7 @@ def extract_early_life(name):
         start = content.find('Early life')
         if start != -1:
                     # List of section headings that could indicate the end of "Early life"
-            section_headings = ['Career', 'Amateur career', 'Personal life','Politics', 'Later life', 'Professional Career','Business career','Mid-life','Mid life','Nursing career']  # Add more if needed
+            section_headings = ['Career','Club career','Youth career', 'Amateur career', 'Personal life','Politics', 'Later life', 'Professional Career','Business career','Mid-life','Mid life','Nursing career','Apprenticeships']  # Add more if needed
 
             # Find the first occurrence of any of these section headings after 'Early life'
             end = -1

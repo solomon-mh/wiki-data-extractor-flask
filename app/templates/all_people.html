@@ -1,85 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All People</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        color: #333;
-      }
-      .container {
-        max-width: 1000px;
-        margin: 50px auto;
-        padding: 20px;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-      }
-      h1 {
-        font-size: 2em;
-        margin-bottom: 20px;
-        text-align: center;
-        font-family: "Georgia", serif;
-        color: #6b4f2d;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-      }
-      li {
-        margin-bottom: 20px;
-        padding: 15px;
-        background: #f1f1f1;
-        border-radius: 6px;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      li a {
-        text-decoration: none;
-        color: #0077cc;
-        font-weight: bold;
-        margin-top: 10px;
-      }
-      li a:hover {
-        text-decoration: underline;
-      }
-      .description {
-        font-size: 0.9em;
-        color: #555;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>All People</h1>
-      <ul>
-        {% for person in people %}
-        <li>
-          <div>
-            <h1>
-              <strong>{{ person.first_name }} {{ person.last_name }}</strong>
-            </h1>
-            <p class="description">
-              {{ person.early_life[:300] }}...
-              <!-- Display clipped description -->
-            </p>
-          </div>
-          <a href="{{ url_for('person_details', id=person.id) }}"
-            >View Details</a
-          >
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </body>
-</html>
+{% extends 'base.html' %}
+{% block title %}All Peoples {% endblock %}
+
+
+{% block content %}
+<div class="all-p-container container">
+  <h1>All People</h1>
+  <ul class="name-list-container">
+    {% for person in people %}
+    <li>
+      <div>
+        <h1>
+          <strong>{{ person.first_name }} {{ person.last_name }}</strong>
+        </h1>
+        <p class="description">
+          {{ person.early_life[:300] }}...
+          <!-- Display clipped description -->
+        </p>
+      </div>
+      <a href="{{ url_for('person_details', id=person.id) }}">View Details</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
